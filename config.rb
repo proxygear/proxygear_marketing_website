@@ -5,7 +5,22 @@ activate :autoprefixer do |prefix|
   prefix.browsers = "last 2 versions"
 end
 
-activate :directory_indexes
+activate :directory_indexes #make terms.html.erb available as /terms
+
+# ---- Deployment ----
+
+# TODO - removable after setting custom domain
+set :relative_links, true
+activate :relative_assets
+
+activate :deploy do |deploy|
+  deploy.deploy_method = :git
+  deploy.branch = 'gh-pages'
+  deploy.build_before = true
+end
+
+# ---- Build ----
+
 
 # Layouts
 # https://middlemanapp.com/basics/layouts/
@@ -46,6 +61,8 @@ page '/*.txt', layout: false
 #   activate :minify_css
 #   activate :minify_javascript, compressor: Terser.new
 # end
+
+# ---- Tailwind ----
 
 activate :external_pipeline,
   name: :tailwind,
