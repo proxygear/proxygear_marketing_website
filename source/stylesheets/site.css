@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/fonts/roboto-light-webfont.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Rokkitt';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url(/fonts/rokkitt.woff2) format('woff2');
+  }
+}
+
+b {
+  @apply text-slate-200 font-bold;
+}
+
+.list {
+  @apply list-disc pl-6; 
+}
+
+ul.list li {
+  @apply pb-1;
+}
+
+ul.list li::marker {
+  @apply -mr-4;
+}
