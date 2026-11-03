@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Builds the site in Docker and publishes build/ to the gh-pages branch.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+source_sha=$(git rev-parse --short HEAD)
+
+docker compose run --rm web bundle exec middleman build
+
+worktree=$(mktemp -d)
+trap 'git worktree remove --force "$worktree"' EXIT
+
+git fetch origin gh-pages
+git worktree add --detach "$worktree" origin/gh-pages
+rsync -a --delete --exclude .git build/ "$worktree"/
+
+cd "$worktree"
+git add -A
+if git diff --cached --quiet; then
+  echo "Nothing to deploy"
+  exit 0
+fi
+git commit -m "Deploy $source_sha"
+git push origin HEAD:gh-pages

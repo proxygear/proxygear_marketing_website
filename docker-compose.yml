@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    ports:
+      - "4567:4567"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    # Tailwind's --watch exits when stdin closes
+    stdin_open: true
+
+volumes:
+  node_modules:
